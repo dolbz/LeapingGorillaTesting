@@ -1,3 +1,4 @@
+using System;
 using LeapingGorilla.Testing.Core.Composable;
 
 namespace LeapingGorilla.Testing.XUnit.Composable
@@ -10,6 +11,11 @@ namespace LeapingGorilla.Testing.XUnit.Composable
     /// </summary>
     public abstract class ComposableTestingTheBehaviourOf : ComposableTestingTheBehaviourOfBase
     {
+        // This property is used to disable the base.Setup() invocation during [Then] discovery.
+        // Executing this method adds extra run time and if exceptions are thrown during setup
+        // it results in no tests being discovered.
+        internal static bool ThenDiscoveryInProgress { get; set; } = false; 
+        
         /// <summary>
         /// Performs setup for this instance - this will prepare all mocks and request the test composition via the
         /// ComposeTest() abstract method. Following this it will call the [Given] methods (if any) and then call the
@@ -23,7 +29,7 @@ namespace LeapingGorilla.Testing.XUnit.Composable
         /// </param>
         protected ComposableTestingTheBehaviourOf(bool shouldSetup = true)
         {
-            if (shouldSetup)
+            if (shouldSetup && !ThenDiscoveryInProgress)
             {
                 base.Setup();
             }
