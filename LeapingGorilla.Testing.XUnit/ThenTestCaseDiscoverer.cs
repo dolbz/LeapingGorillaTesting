@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LeapingGorilla.Testing.Core.Composable;
 using LeapingGorilla.Testing.XUnit.Composable;
+using LeapingGorilla.Testing.XUnit.XunitExtensions;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
@@ -53,7 +54,7 @@ namespace LeapingGorilla.Testing.XUnit
                 }
             }
             
-            cases.Add(new XunitTestCase(_messageSink, TestMethodDisplay.Method, TestMethodDisplayOptions.None, testMethod));
+            cases.Add(new LeapingGorillaTestCase(_messageSink, TestMethodDisplay.Method, TestMethodDisplayOptions.None, testMethod));
             return cases;
         }
     }
